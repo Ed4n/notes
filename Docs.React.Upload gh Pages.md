@@ -1,10 +1,16 @@
 ---
-id: ln9f16cxfut61rbiqirlozg
-title: JS Docs
+id: koyga7pu9kczh335zphxdoo
+title: Upload gh Pages
 desc: ""
-updated: 1689727226428
-created: 1689472071660
+updated: 1689726141188
+created: 1689726135013
 ---
+
+Easily upload to gh-pages
+
+[Introducción a Vite, mas Deploy en Github Pages (Por si no lo vite)](https://youtu.be/UX4gvort2TU?t=755)
+
+## JS Doc Implementation
 
 To us js doc, first it's needed to install node:
 
@@ -64,9 +70,6 @@ npm run docs
 #### References:
 
 [JS Doc Documentation](https://jsdoc.app/)
-
 [Js Doc NPM](https://www.npmjs.com/package/jsdoc)
-
 [Jsdoc cheatsheet](https://devhints.io/jsdoc)
-
 [JS Doc Fatz](https://youtu.be/r0H-acWQS6c)
