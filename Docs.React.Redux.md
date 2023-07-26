@@ -2,7 +2,7 @@
 id: tiuhczvytuz9kzhy79og77d
 title: Redux Toolkit
 desc: ""
-updated: 1689885190220
+updated: 1690414719296
 created: 1689883726920
 ---
 
@@ -10,15 +10,17 @@ created: 1689883726920
 
 https://redux-toolkit.js.org/tutorials/quick-start
 
+## Initialization
+
 ### 1. First import redux:
 
 ```other
 npm install @reduxjs/toolkit react-redux
 ```
 
-### 2. Create a Slice file
+### 2. Create a Store file
 
-create a slice file inside an app folder.
+create a store file inside an app folder.
 
 ![Alt text](<CleanShot 2023-07-20 at 2.11.07.jpg>)
 
@@ -28,9 +30,7 @@ the file should look like this:
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
-  reducer: {
-    // Reducers
-  },
+  reducer: {},
 });
 ```
 
@@ -47,15 +47,15 @@ Create a slice inside a feature folder.
 ```javascript
 import { createSlice } from "@reduxjs/toolkit";
 
-export const taskSlice = createSlice({
-  name: "tasks",
+export const DemoSlice = createSlice({
+  name: "DemoSlice",
   initialState: [],
   reducers: {
     // Reducers
   },
 });
 
-export default taskSlice.reducer;
+export default DemoSlice.reducer;
 ```
 
 Its important to export it with the .reducer at the end.
@@ -66,19 +66,19 @@ Import the created slice in the main store file.
 
 ```javascript
 import { configureStore } from "@reduxjs/toolkit";
-import tasksReducer from "../features/tasks/taskSlice";
+import demoReducer from "../features/tasks/DemoSlice";
 
 export const store = configureStore({
   reducer: {
-    // Reducers
-    tasks: tasksReducer,
+    // name | import name
+    DemoSlice: demoReducer,
   },
 });
 ```
 
 ### 5. Wrap the App component in a Provider
 
-Wrap the app component in the store provider, all the files that are wrapped with this provider will be able
+First import the dependencies then wrap the app component in the store provider, all the files that are wrapped with this provider will be able
 to acces to the store:
 
 ```javascript
@@ -86,7 +86,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
-// Redux
+// Redux imports
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 
@@ -100,16 +100,26 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 ```
 
-6. ### Usage
+---
+
+## Usage
+
+### Use Selector
+
+the use selector hook is used to consume the state stored in the slice created before.
+
+- useSelector has acces to the whole state.
 
 ```javascript
 import React from "react";
+
 // import useSelector
 import { useSelector } from "react-redux";
 
 export default function ReduxLearning() {
-  const taskState = useSelector((state) => state.tasks);
-  console.log(taskState);
+  // Initializing useSelector
+  const demoState = useSelector((state) => state.DemoSlice);
+  console.log(demoState);
 
   return (
     <div className="p-5">
@@ -119,12 +129,42 @@ export default function ReduxLearning() {
 }
 ```
 
-## General Information
+Usually you'll be working with objects, so if you store an object in the **DemoSlice** you'll be able to map the results.
 
-#### useDispatch
+### useDispatch
 
 the **useDispatch** function is used to update the reducers form an specific slice.
 
-#### useSelector
+To use **useDispatch** previeosly you need to create a function inside the slice reducers and export it.
 
-the **useSelector** is used to print & use the information from the main store.
+```javascript
+export const DemoSlice = createSlice({
+  name: "DemoSlice",
+  initialState: [],
+  reducers: {
+    demoFunction: (state, action) => {
+      console.log(action.payload);
+    },
+  },
+});
+export const { demoFunction } = DemoSlice.actions;
+export default DemoSlice.reducer;
+```
+
+Now you can use the **useDispatch** hook and here is how:
+
+```javascript
+// import useDispatch
+import { useDispatch } from "react-redux";
+
+// import the function to use
+import { demoFunction } from "../features/demoFunction";
+
+// Initializing useDispatch
+const dispatch = useDispatch();
+
+// Usage
+dispatch(demoFunction("Hello"));
+```
+
+## General Information
